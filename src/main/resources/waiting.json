@@ -1,0 +1,19 @@
+{
+  "waiting_player": {
+    "join": "<prefix><white>игрок <player> зашёл в игру (<green><online_players>/<max_players></green>)</white>",
+    "quit": "<prefix><white>игрок <player> покинул игру (<green><online_players>/<max_players></green>)</white>"
+  },
+  "start_timer": {
+    "action_bar": "<white>Игра начинается через <green><time></green></white>",
+    "cancel_message": "<red>Игра отменена, недостаточно игроков для старта!"
+  },
+  "waiting_board": {
+    "title": "<gold><bold>Spleef",
+    "players": "<white>Игроки: <green><online_player>/<max_player></green></white>",
+    "site": "<yellow>laffeymyth.chill</yellow>",
+    "map": "<white>Карта: <green><map></green></white>",
+    "server": "<white>Сервер: <green><server></green></white>",
+    "timer_on_wait": "<white>Ожидание<board_dots></white>",
+    "timer_on_start": "<white>До старта: <green><time></green></white>"
+  }
+}

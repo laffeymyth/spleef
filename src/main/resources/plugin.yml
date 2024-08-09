@@ -1,0 +1,4 @@
+name: spleef
+version: '1.0-SNAPSHOT'
+main: net.laffeymyth.spleef.Spleef
+api-version: '1.20'
