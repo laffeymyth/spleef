@@ -35,6 +35,7 @@ class GamerListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
+        game.normalize(player);
         game.putPlayer(player, GamerState.GAMER);
 
         event.joinMessage(

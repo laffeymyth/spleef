@@ -1,3 +1,14 @@
 {
-  "game_prefix": "<gold>Spleef <dark_grey>| <white>"
+  "game_prefix": "<gold>Spleef <dark_grey>| <white>",
+  "game_board": {
+    "title": "<gold><bold>Spleef",
+    "map": "<white>Карта: <green><map></green></white>",
+    "server": "<white>Сервер: <green><server></green></white>",
+    "players": "<white>Игроков осталось: <green><online_player></green></white>",
+    "next_event": "<white>До следующего события:</white>",
+    "next_event_time": "<green><time></green>"
+  },
+  "game_event_start": {
+    "title": "<red>Игра началась, выживете!"
+  }
 }

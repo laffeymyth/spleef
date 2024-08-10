@@ -35,6 +35,7 @@ public class BoardServiceImpl implements BoardService {
                     return;
                 }
 
+                remove(player);
                 FastBoard fastBoard = playerScoreboards.computeIfAbsent(player, FastBoard::new);
 
                 updaterTaskMap.computeIfAbsent(player, player1 -> Bukkit.getScheduler().runTaskTimer(plugin, () -> {
@@ -57,6 +58,21 @@ public class BoardServiceImpl implements BoardService {
                         fastBoard.updateLines(components);
                     }
                 }, delay, period));
+            }
+
+            @Override
+            public void remove(Player player) {
+                FastBoard fastBoard = playerScoreboards.remove(player);
+
+                if (fastBoard != null) {
+                    fastBoard.delete();
+                }
+
+                BukkitTask bukkitTask = updaterTaskMap.remove(player);
+
+                if (bukkitTask != null && !bukkitTask.isCancelled()) {
+                    bukkitTask.cancel();
+                }
             }
         };
     }

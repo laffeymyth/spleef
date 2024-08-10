@@ -14,7 +14,7 @@ public class MinPlayerUtil {
         }
 
         return percent(currentPlayers, maxPlayers) >= 66;*/
-        return false;
+        return true;
     }
 
     public static int percent(int a, int b) {

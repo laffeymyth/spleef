@@ -19,4 +19,5 @@ public interface Board {
 
     void send(Player player);
 
+    void remove(Player player);
 }

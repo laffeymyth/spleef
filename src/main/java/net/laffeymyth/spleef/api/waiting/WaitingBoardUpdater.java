@@ -21,6 +21,7 @@ class WaitingBoardUpdater implements BoardUpdater {
     private final TagResolver dots;
     private final ComponentLocalizationService lang;
     private final WaitingTimer waitingTimer;
+    private final Game game;
 
     WaitingBoardUpdater(ComponentLocalizationService lang, Game game, WaitingTimer waitingTimer, DotsTask dotsTask) {
         this.lang = lang;
@@ -31,13 +32,14 @@ class WaitingBoardUpdater implements BoardUpdater {
         this.time = ComponentResolver.tag("time", (argumentQueue, context) -> Component.text(waitingTimer.getTime()));
         this.dots = ComponentResolver.tag("board_dots", (argumentQueue, context) -> Component.text(".".repeat(dotsTask.getDotCount())));
         this.waitingTimer = waitingTimer;
+        this.game = game;
     }
 
     @Override
     public void onUpdate(Board board) {
         Map<Integer, Component> componentMap = board.getLineMap();
 
-        board.setTitle(lang.getMessage("waiting_board_title", "ru"));
+        board.setTitle(game.getBoardTitle("ru"));
 
         componentMap.put(9, null);
         componentMap.put(8, lang.getMessage("waiting_board_players", "ru", onlinePlayers, maxPlayers));
@@ -51,6 +53,6 @@ class WaitingBoardUpdater implements BoardUpdater {
         componentMap.put(4, lang.getMessage("waiting_board_map", "ru", map));
         componentMap.put(3, lang.getMessage("waiting_board_server", "ru", server));
         componentMap.put(2, null);
-        componentMap.put(1, lang.getMessage("waiting_board_site", "ru"));
+        componentMap.put(1, lang.getMessage("credentials_board_site", "ru"));
     }
 }

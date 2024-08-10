@@ -8,9 +8,7 @@
     "cancel_message": "<red>Игра отменена, недостаточно игроков для старта!"
   },
   "waiting_board": {
-    "title": "<gold><bold>Spleef",
     "players": "<white>Игроки: <green><online_player>/<max_player></green></white>",
-    "site": "<yellow>laffeymyth.chill</yellow>",
     "map": "<white>Карта: <green><map></green></white>",
     "server": "<white>Сервер: <green><server></green></white>",
     "timer_on_wait": "<white>Ожидание<board_dots></white>",
