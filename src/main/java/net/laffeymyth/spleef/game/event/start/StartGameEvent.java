@@ -1,7 +1,8 @@
-package net.laffeymyth.spleef.game.event;
+package net.laffeymyth.spleef.game.event.start;
 
 import net.kyori.adventure.title.TitlePart;
 import net.laffeymyth.spleef.api.Game;
+import net.laffeymyth.spleef.game.event.GameEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -34,7 +35,12 @@ public class StartGameEvent implements GameEvent {
         Bukkit.getPluginManager().registerEvents(startGameListener, plugin);
     }
 
-    public void onEndGame() {
+    public void endGame() {
         HandlerList.unregisterAll(startGameListener);
+    }
+
+    @Override
+    public int time() {
+        return 3 * 60;
     }
 }

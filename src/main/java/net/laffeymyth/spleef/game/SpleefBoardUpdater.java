@@ -14,7 +14,6 @@ public class SpleefBoardUpdater implements BoardUpdater {
     private final TagResolver onlinePlayers;
     private final Game game;
     private final ComponentLocalizationService lang;
-    private final SpleefTimer spleefTimer;
     private final TagResolver map;
     private final TagResolver time;
     private final TagResolver server;
@@ -23,7 +22,6 @@ public class SpleefBoardUpdater implements BoardUpdater {
         this.onlinePlayers = ComponentResolver.tag("online_player", (argumentQueue, context) -> Component.text(game.getGamers().size()));
         this.map = ComponentResolver.tag("map", (argumentQueue, context) -> game.getServerMap("ru"));
         this.server = ComponentResolver.tag("server", (argumentQueue, context) -> game.getServerName("ru"));
-        this.spleefTimer = spleefTimer;
         this.time = ComponentResolver.tag("time", (argumentQueue, context) -> Component.text(spleefTimer.getTime()));
         this.game = game;
         this.lang = lang;

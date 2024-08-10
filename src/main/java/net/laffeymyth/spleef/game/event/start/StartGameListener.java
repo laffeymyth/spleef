@@ -1,4 +1,4 @@
-package net.laffeymyth.spleef.game.event;
+package net.laffeymyth.spleef.game.event.start;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;

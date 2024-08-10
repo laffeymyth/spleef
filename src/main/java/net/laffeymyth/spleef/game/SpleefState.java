@@ -1,12 +1,13 @@
 package net.laffeymyth.spleef.game;
 
+import lombok.Getter;
 import net.laffeymyth.spleef.api.Game;
 import net.laffeymyth.spleef.api.State;
 import net.laffeymyth.spleef.api.board.Board;
 import net.laffeymyth.spleef.api.board.BoardService;
-import net.laffeymyth.spleef.api.board.BoardServiceImpl;
 import net.laffeymyth.spleef.game.event.GameEvent;
-import net.laffeymyth.spleef.game.event.StartGameEvent;
+import net.laffeymyth.spleef.game.event.start.StartGameEvent;
+import net.laffeymyth.spleef.game.event.starttimer.StartTimerEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,11 +19,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
+@Getter
 public class SpleefState implements State {
-    private final Map<Integer, GameEvent> gameEventMap = new HashMap<>();
+    private final Deque<GameEvent> gameEvents = new ArrayDeque<>();
     private final Game game;
     private final Location startLocation;
     private final Plugin plugin;
@@ -37,7 +41,7 @@ public class SpleefState implements State {
         this.startLocation = startLocation;
         this.plugin = plugin;
         this.loseLevel = loseLevel;
-        this.spleefTimer = new SpleefTimer(plugin);
+        this.spleefTimer = new SpleefTimer(this, plugin);
         this.gameBoard = boardService.createBoard(new SpleefBoardUpdater(game, game.getLang(), spleefTimer), 0L, 1L);
     }
 
@@ -45,7 +49,9 @@ public class SpleefState implements State {
     public void start() {
         cancelBlockListener = new CancelBlockBreakListener();
         Bukkit.getPluginManager().registerEvents(cancelBlockListener, plugin);
-        gameEventMap.put(10, new StartGameEvent(game, plugin, cancelBlockListener));
+
+        gameEvents.add(new StartTimerEvent());
+        gameEvents.add(new StartGameEvent(game, plugin, cancelBlockListener));
 
         game.getGamers().forEach(player -> {
             game.normalize(player);
@@ -57,6 +63,8 @@ public class SpleefState implements State {
 
         spleefListener = new SpleefListener(game, loseLevel);
         Bukkit.getPluginManager().registerEvents(spleefListener, plugin);
+
+        spleefTimer.start();
     }
 
     public void giveShovel(Player player) {
@@ -75,5 +83,7 @@ public class SpleefState implements State {
     public void end() {
         HandlerList.unregisterAll(spleefListener);
         HandlerList.unregisterAll(cancelBlockListener);
+
+        spleefTimer.end();
     }
 }

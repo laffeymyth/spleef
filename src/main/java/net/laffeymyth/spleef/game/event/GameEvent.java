@@ -4,9 +4,14 @@ public interface GameEvent {
     default void start() {
     }
 
-    default void onTick(int leftTime) {
+    default void tick(int leftTime) {
     }
 
-    default void onEndGame() {
+    default void endGame() {
     }
+
+    default void end() {
+    }
+
+    int time();
 }
