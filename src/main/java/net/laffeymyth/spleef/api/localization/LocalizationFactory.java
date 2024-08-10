@@ -26,12 +26,6 @@ public class LocalizationFactory {
         ComponentLocalizationService componentLocalizationService = new ComponentLocalizationService();
         componentLocalizationService.getLanguageMap().put("ru", ru);
 
-        componentLocalizationService.getLanguageMap().values().forEach(localizationMessageSource -> {
-            localizationMessageSource.getMessageMap().entrySet().forEach(stringStringEntry -> {
-                log.info(stringStringEntry.getKey() + ":" + stringStringEntry.getValue());
-            });
-        });
-
         return componentLocalizationService;
     }
 

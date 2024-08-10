@@ -1,6 +1,7 @@
 package net.laffeymyth.spleef.api.board;
 
 import fr.mrmicky.fastboard.adventure.FastBoard;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -8,10 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class BoardServiceImpl implements BoardService {
     private final Map<Player, FastBoard> playerScoreboards = new HashMap<>();
@@ -36,16 +35,9 @@ public class BoardServiceImpl implements BoardService {
                     return;
                 }
 
-                FastBoard fastBoard = playerScoreboards.get(player);
-
-                if (fastBoard == null) {
-                    fastBoard = new FastBoard(player);
-                    playerScoreboards.put(player, fastBoard);
-                }
+                FastBoard fastBoard = playerScoreboards.computeIfAbsent(player, FastBoard::new);
 
                 updaterTaskMap.computeIfAbsent(player, player1 -> Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                    FastBoard fastBoard1 = playerScoreboards.get(player);
-
                     if (!player.isOnline()) {
                         return;
                     }
@@ -53,13 +45,16 @@ public class BoardServiceImpl implements BoardService {
                     updater.onUpdate(this);
 
                     if (getTitle() != null) {
-                        fastBoard1.updateTitle(getTitle());
+                        fastBoard.updateTitle(getTitle());
                     }
 
                     if (getLineMap() != null && !getLineMap().isEmpty()) {
-                        var lines = new ArrayList<>(getLineMap().values().stream().toList());
-                        Collections.reverse(lines);
-                        fastBoard1.updateLines(lines);
+                        List<Component> components = getLineMap().values().stream().collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
+                            Collections.reverse(list);
+                            return list;
+                        }));
+
+                        fastBoard.updateLines(components);
                     }
                 }, delay, period));
             }
