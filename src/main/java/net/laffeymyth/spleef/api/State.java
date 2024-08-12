@@ -1,7 +1,9 @@
 package net.laffeymyth.spleef.api;
 
 public interface State {
-    void start();
+    default void start() {
+    }
 
-    void end();
+    default void end() {
+    }
 }
