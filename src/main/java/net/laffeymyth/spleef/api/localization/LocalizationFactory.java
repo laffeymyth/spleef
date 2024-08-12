@@ -24,6 +24,7 @@ public class LocalizationFactory {
         messageParser.parse(ru, getReaderByFileName("game.json"));
         messageParser.parse(ru, getReaderByFileName("credentials.json"));
         messageParser.parse(ru, getReaderByFileName("game_api.json"));
+        messageParser.parse(ru, getReaderByFileName("words.json"));
 
         ComponentLocalizationService componentLocalizationService = new ComponentLocalizationService();
         componentLocalizationService.getLanguageMap().put("ru", ru);
