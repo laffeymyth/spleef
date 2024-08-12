@@ -1,4 +1,4 @@
-package net.laffeymyth.spleef.api.localization;
+package net.laffeymyth.spleef.localization;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

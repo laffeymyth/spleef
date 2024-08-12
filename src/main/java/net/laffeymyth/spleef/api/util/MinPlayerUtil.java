@@ -4,20 +4,16 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class MinPlayerUtil {
-    public boolean isTwoThirds(int currentPlayers, int maxPlayers) { //есть ли две трети игроков
-/*        if (currentPlayers == maxPlayers) {
-            return true;
-        }
-
+    public boolean isTwoThirds(int currentPlayers, int maxPlayers) {
         if (currentPlayers == 0) {
             return false;
         }
 
-        return percent(currentPlayers, maxPlayers) >= 66;*/
-        return true;
-    }
+        if (currentPlayers == maxPlayers) {
+            return true;
+        }
 
-    public static int percent(int a, int b) {
-        return (b / a) * 100;
+        double twoThirds = (2.0 / 3.0) * maxPlayers;
+        return currentPlayers >= twoThirds;
     }
 }

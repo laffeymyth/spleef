@@ -4,7 +4,7 @@ import net.laffeymyth.localization.commons.service.ComponentLocalizationService;
 import net.laffeymyth.spleef.api.Game;
 import net.laffeymyth.spleef.api.board.BoardServiceImpl;
 import net.laffeymyth.spleef.api.end.EndState;
-import net.laffeymyth.spleef.api.localization.LocalizationFactory;
+import net.laffeymyth.spleef.localization.LocalizationFactory;
 import net.laffeymyth.spleef.api.waiting.WaitingState;
 import net.laffeymyth.spleef.game.SpleefState;
 import org.bukkit.Bukkit;
