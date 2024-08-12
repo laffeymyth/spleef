@@ -1,5 +1,6 @@
 package net.laffeymyth.spleef.game;
 
+import lombok.extern.slf4j.Slf4j;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.laffeymyth.localization.commons.service.ComponentLocalizationService;
@@ -7,9 +8,11 @@ import net.laffeymyth.localization.commons.util.ComponentResolver;
 import net.laffeymyth.spleef.api.Game;
 import net.laffeymyth.spleef.api.board.Board;
 import net.laffeymyth.spleef.api.board.BoardUpdater;
+import net.laffeymyth.spleef.api.util.StringUtil;
 
 import java.util.Map;
 
+@Slf4j
 public class SpleefBoardUpdater implements BoardUpdater {
     private final TagResolver onlinePlayers;
     private final Game game;
@@ -22,7 +25,13 @@ public class SpleefBoardUpdater implements BoardUpdater {
         this.onlinePlayers = ComponentResolver.tag("online_player", (argumentQueue, context) -> Component.text(game.getGamers().size()));
         this.map = ComponentResolver.tag("map", (argumentQueue, context) -> game.getServerMap("ru"));
         this.server = ComponentResolver.tag("server", (argumentQueue, context) -> game.getServerName("ru"));
-        this.time = ComponentResolver.tag("time", (argumentQueue, context) -> Component.text(spleefTimer.getTime()));
+        this.time = ComponentResolver.tag("time", (argumentQueue, context) -> {
+            if (spleefTimer.getNextEvent() == null) {
+                return lang.getMessage("game_end_game_over_board", "ru");
+            }
+
+            return spleefTimer.getNextEvent().getName("ru", ComponentResolver.tag("time", Component.text(StringUtil.convertSeconds(spleefTimer.getLeftTime()))));
+        });
         this.game = game;
         this.lang = lang;
     }

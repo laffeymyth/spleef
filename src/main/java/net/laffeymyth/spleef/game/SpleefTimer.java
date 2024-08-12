@@ -1,6 +1,7 @@
 package net.laffeymyth.spleef.game;
 
 import lombok.Getter;
+import net.laffeymyth.spleef.api.Game;
 import net.laffeymyth.spleef.game.event.GameEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -14,22 +15,33 @@ public class SpleefTimer {
     private BukkitTask bukkitTask;
     private final Plugin plugin;
     private GameEvent currentEvent;
+    private final Game game;
 
-    public SpleefTimer(SpleefState spleefState, Plugin plugin) {
+    public SpleefTimer(SpleefState spleefState, Plugin plugin, Game game) {
         this.spleefState = spleefState;
         this.plugin = plugin;
+        this.game = game;
     }
 
     public void start() {
         currentEvent = spleefState.getGameEvents().pop();
 
         bukkitTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-            currentEvent.tick(time);
+            if (getLeftTime() != 0) {
+                currentEvent.tick(eventTime, getLeftTime());
+            }
 
-            if (eventTime == currentEvent.time()) {
+            if (eventTime == currentEvent.timeToNextEvent()) {
                 currentEvent.end();
                 eventTime = 0;
-                currentEvent = spleefState.getGameEvents().pop();
+
+                if (spleefState.getGameEvents().isEmpty()) {
+                    game.nextState();
+                } else {
+                    currentEvent = spleefState.getGameEvents().pop();
+                }
+
+                currentEvent.start();
             } else {
                 eventTime++;
             }
@@ -39,6 +51,22 @@ public class SpleefTimer {
     }
 
     public void end() {
+        if (bukkitTask == null) {
+            return;
+        }
+
+        if (bukkitTask.isCancelled()) {
+            return;
+        }
+
         bukkitTask.cancel();
+    }
+
+    public GameEvent getNextEvent() {
+        return spleefState.getGameEvents().peek();
+    }
+
+    public int getLeftTime() {
+        return currentEvent.timeToNextEvent() - eventTime;
     }
 }

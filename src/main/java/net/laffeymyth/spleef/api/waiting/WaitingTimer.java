@@ -35,7 +35,8 @@ class WaitingTimer {
                 game.getGamers().forEach(player -> {
                     player.sendActionBar(lang.getMessage("start_timer_action_bar",
                             "ru",
-                            ComponentResolver.tag("time", Component.text(time)))
+                            ComponentResolver.tag("time", Component.text(time).append(Component.space())
+                                    .append(lang.getWord("TIME_SECOND_1", time, "ru"))))
                     );
 
                     player.playSound(START_SOUND, Sound.Emitter.self());

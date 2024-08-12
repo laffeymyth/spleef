@@ -8,7 +8,17 @@
     "next_event": "<white>До следующего события:</white>",
     "next_event_time": "<green><time></green>"
   },
-  "game_event_start": {
-    "title": "<red>Игра началась, выживете!"
+  "game_event": {
+    "start_action_bar": "<white>Приготовьтесь, игра начнётся через <green><time></green></white>",
+    "start_title": "<red>Игра началась, выживете!",
+    "bow_title": "<red>Все игроки получили лук"
+  },
+  "game_event_board": {
+    "start_game": "<green>Игра начнётся <time></green>",
+    "end_game": "<red>Конец игры <time></red>",
+    "bow": "<green>Выдача луков <time></green>"
+  },
+  "game_end": {
+    "game_over_board": "<red>Игра окончена!"
   }
 }

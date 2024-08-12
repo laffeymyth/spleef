@@ -5,8 +5,9 @@ import net.laffeymyth.spleef.api.Game;
 import net.laffeymyth.spleef.api.State;
 import net.laffeymyth.spleef.api.board.Board;
 import net.laffeymyth.spleef.api.board.BoardService;
-import net.laffeymyth.spleef.game.event.GameEvent;
-import net.laffeymyth.spleef.game.event.start.StartGameEvent;
+import net.laffeymyth.spleef.game.event.end.EndEvent;
+import net.laffeymyth.spleef.game.event.snow.BowEvent;
+import net.laffeymyth.spleef.game.event.start.SpleefGameEvent;
 import net.laffeymyth.spleef.game.event.starttimer.StartTimerEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -20,13 +21,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 
 @Getter
 public class SpleefState implements State {
-    private final Deque<GameEvent> gameEvents = new ArrayDeque<>();
+    private final Deque<net.laffeymyth.spleef.game.event.GameEvent> gameEvents = new ArrayDeque<>();
     private final Game game;
     private final Location startLocation;
     private final Plugin plugin;
@@ -41,7 +40,7 @@ public class SpleefState implements State {
         this.startLocation = startLocation;
         this.plugin = plugin;
         this.loseLevel = loseLevel;
-        this.spleefTimer = new SpleefTimer(this, plugin);
+        this.spleefTimer = new SpleefTimer(this, plugin, game);
         this.gameBoard = boardService.createBoard(new SpleefBoardUpdater(game, game.getLang(), spleefTimer), 0L, 1L);
     }
 
@@ -50,8 +49,10 @@ public class SpleefState implements State {
         cancelBlockListener = new CancelBlockBreakListener();
         Bukkit.getPluginManager().registerEvents(cancelBlockListener, plugin);
 
-        gameEvents.add(new StartTimerEvent());
-        gameEvents.add(new StartGameEvent(game, plugin, cancelBlockListener));
+        gameEvents.add(new StartTimerEvent(game, game.getLang()));
+        gameEvents.add(new SpleefGameEvent(game, plugin, cancelBlockListener, game.getLang()));
+        gameEvents.add(new BowEvent(game));
+        gameEvents.add(new EndEvent(game.getLang(), game));
 
         game.getGamers().forEach(player -> {
             game.normalize(player);

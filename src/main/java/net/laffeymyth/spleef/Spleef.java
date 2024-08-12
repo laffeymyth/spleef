@@ -29,7 +29,7 @@ public final class Spleef extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        Game game = new Game(lang, 4, 10, new Location(
+        Game game = new Game(lang, 1, 10, new Location(
                 Bukkit.getWorld("world"), 9.5f, 40.0f, 9.5f, 0f, 0f
         ));
 
